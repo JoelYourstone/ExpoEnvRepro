@@ -1,50 +1,32 @@
-# Welcome to your Expo app 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Steps to reproduce with this repo
+1. Clone
+2. `npm install`
+3. `npx expo start`
 
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+# Steps to reproduce without this repo
+1. `npx create-expo-app@latest ExpoEnvRepro`
+2. `cd ExpoEnvRepro`
+3. `npm install expo-dev-client`
+4. Add the following `app.config.js` file:
 ```
+export default ({ config }) => {
+  if (!process.env.TEST_ENV) {
+    throw new Error("TEST_ENV is not set");
+  }
+  return config;
+};
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+```
+5. Add the following `.env` file:
+```
+TEST_ENV=true
+```
+6. `npx expo start`
 
-## Learn more
+### Expected results
+It starts without issues, since we have set TEST_ENV
 
-To learn more about developing your project with Expo, look at the following resources:
+### Actual results
+Error("TEST_ENV is not set")
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
